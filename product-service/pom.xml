@@ -10,11 +10,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>product-service</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>goods-service</module>
+    </modules>
 
     <dependencies>
         <dependency>
             <groupId>com.gemini.cloud.framework</groupId>
             <artifactId>cloud-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

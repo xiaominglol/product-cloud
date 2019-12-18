@@ -1,0 +1,42 @@
+app:
+  id: goods-service
+
+cloud:
+  name: 小明
+
+apollo:
+  bootstrap:
+    enabled: true
+
+spring:
+  application:
+    name: ${app.id}
+  datasource:
+    druid:
+      driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+      #      driver-class-name: com.mysql.cj.jdbc.Driver
+      #The server time zone value '�й���׼ʱ��' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support
+      #解决方案：url添加serverTimezone=UTC
+      #      url: jdbc:p6spy:mysql://192.168.0.107:3306/product?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+      url: jdbc:p6spy:mysql://47.110.47.45:3306/product?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+      username: root
+      password: root
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${gemini.pictureUploadPath}
+  thymeleaf:
+    #开发的时候禁用模板引擎的缓存，否则修改刷新无效
+    cache: false
+
+#gemini自定义配置
+gemini:
+  #用户头像上传目录 /home/gemini/prod/picture
+  pictureUploadPath: E:/file/picture/
+
+
+logging:
+  pattern:
+    # 在控制台输出的日志的格式
+    console: '[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%logger{50}] %n%msg%n%n'
+    # 指定文件中日志输出的格式
+    file: '[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%logger{50}] %n%msg%n%n'
+
