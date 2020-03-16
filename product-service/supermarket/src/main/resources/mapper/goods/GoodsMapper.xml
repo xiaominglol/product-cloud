@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.goods.mapper.GoodsMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.goods.po.GoodsPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="category_id" property="categoryId" javaType="Long"/>
+        <result column="category_name" property="categoryName" javaType="String"/>
+        <result column="brand_id" property="brandId" javaType="Long"/>
+        <result column="brand_name" property="brandName" javaType="String"/>
+        <result column="picture" property="picture" javaType="String"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="fields">
+                            g.name,
+                    g.brand_id,
+                    g.brand_name,
+                    g.classification_id,
+                    g.classification_name,
+                    g.stock_id,
+                    g.state_id,
+                    g.state_code,
+                    g.state_name,
+                    g.modify_user_id,
+                    g.modify_user_name,
+                    g.modify_time
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict g
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="name != null and name != ''">
+                and g.name = #{name}
+            </if>
+            <if test="brandId != null and brandId != ''">
+                and g.brand_id = #{brandId}
+            </if>
+            <if test="brandName != null and brandName != ''">
+                and g.brand_name = #{brandName}
+            </if>
+            <if test="classificationId != null and classificationId != ''">
+                and g.classification_id = #{classificationId}
+            </if>
+            <if test="classificationName != null and classificationName != ''">
+                and g.classification_name = #{classificationName}
+            </if>
+            <if test="stockId != null and stockId != ''">
+                and g.stock_id = #{stockId}
+            </if>
+            <if test="stateId != null and stateId != ''">
+                and g.state_id = #{stateId}
+            </if>
+            <if test="stateCode != null and stateCode != ''">
+                and g.state_code = #{stateCode}
+            </if>
+            <if test="stateName != null and stateName != ''">
+                and g.state_name = #{stateName}
+            </if>
+            <if test="modifyUserId != null and modifyUserId != ''">
+                and g.modify_user_id = #{modifyUserId}
+            </if>
+            <if test="modifyUserName != null and modifyUserName != ''">
+                and g.modify_user_name = #{modifyUserName}
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                and g.modify_time = #{modifyTime}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+</mapper>

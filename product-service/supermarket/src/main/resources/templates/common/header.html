@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>gemini-monomer</title>
+
+    <!--第三方插件-->
+
+    <!--jquery-->
+    <script th:src="@{/plugins/jquery/jquery-3.2.1.js}"></script>
+
+    <!-- layui -->
+    <link th:href="@{/plugins/layui-v2.4.3/layui/css/layui.css}" rel="stylesheet">
+    <script th:src="@{/plugins/layui-v2.4.3/layui/layui.js}" charset="utf-8"></script>
+
+    <!-- echarts -->
+    <script th:src="@{/plugins/echarts-3.8.5/echarts.min.js}" charset="utf-8"></script>
+
+
+    <!--自定义插件-->
+    <!--公共样式-->
+    <link rel="stylesheet" th:href="@{/css/common.css }">
+    <!--阿里巴巴矢量图标库-->
+    <link rel="stylesheet" th:href="@{/css/iconfont.css }">
+    <!--layui自定义样式-->
+    <link rel="stylesheet" th:href="@{/css/layui_custom.css }">
+    <!--公共工具类-->
+    <script th:src="@{/js/utils.js}"></script>
+    <!--增删查改工具类-->
+    <script th:src="@{/js/crud-utils.js}"></script>
+    <!--系统管理工具类-->
+    <script th:src="@{/js/sys-utils.js}"></script>
+    <!--layui工具类-->
+    <script th:src="@{/js/layui-utils.js}"></script>
+
+</head>
+<body class="layui-layout-body">
+</body>
+<script>
+    // 首页加载，否则会出现重复加载，被占用
+    layui.config({
+        base: 'plugins/'
+    }).extend({
+        authTree: 'layui-authTree-v1.1/authTree',
+        formSelects: 'layui-formSelects-v4/formSelects-v4',
+        treeSelect: 'layui-treeSelect/treeSelect',
+        treetable: 'layui-treetable-lay/treetable'
+    });
+
+    $("title").html("后台管理系统");
+</script>
+</html>

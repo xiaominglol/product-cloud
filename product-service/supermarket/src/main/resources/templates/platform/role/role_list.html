@@ -1,0 +1,203 @@
+<div th:replace="platform/role/role_crud"></div>
+<script th:src="@{/js/layui-authTree-utils.js}"></script>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="content">
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <blockquote class="layui-elem-quote layui-quote-nm">
+                                    <form class="layui-form layui-form-pane queryFrom">
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label" style="width:120px;">名称/编码</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="name" placeholder="请输入名称/编码"
+                                                           autocomplete="off"
+                                                           class="layui-input">
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-inline">
+                                                <div class="layui-input-inline" style="width: 100%">
+                                                    <div class="layui-btn-container">
+                                                        <button class="layui-btn layui-btn-sm layui-btn-normal"
+                                                                lay-submit
+                                                                lay-filter="queryButton">
+                                                            <i class="layui-icon layui-icon-search"></i>查询
+                                                        </button>
+                                                        <button type="reset"
+                                                                class="layui-btn layui-btn-sm layui-btn-rest">
+                                                            <i class="layui-icon layui-icon-refresh-1"></i>重置
+                                                        </button>
+                                                        <span class="layui-btn layui-btn-sm addButton">
+                                                <i class="layui-icon layui-icon-add-circle"></i> 添加
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm layui-btn-warm editButton">
+                                                <i class="layui-icon layui-icon-edit"></i> 修改
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm layui-btn-danger delButton">
+                                                <i class="layui-icon layui-icon-delete"></i> 删除
+                                            </span>
+                                                        <!--<span class="layui-btn layui-btn-sm autButton">
+                                                <i class="layui-icon layui-icon-auz"></i> 授权
+                                            </span>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <table id="table" lay-filter="table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="none">
+
+    layui.use(['form', 'table', 'authTree'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var authTree = layui.authTree;
+        var baseUrl = "/sys/role";
+        var moduleName = "角色";
+        var requestType;
+        var baseCols = [[
+            {checkbox: true}
+            , {field: 'code', title: '角色编码'}
+            , {field: 'name', title: '角色名称'}
+            , {field: 'sort', title: '排序'}
+            , {field: 'stateName', title: '状态'}
+            , {title: '操作', toolbar: '#optToolBar'}
+        ]];
+        var baseUpdateCols = [
+            {field: 'code', type: "text"}
+            , {field: 'name', type: "text"}
+            , {field: 'sort', type: "text"}
+        ];
+
+        //表格
+        renderTable({
+            url: baseUrl
+            , cols: baseCols
+        });
+
+        //查询
+        form.on('submit(queryButton)', function (data) {
+            refreshTable({
+                where: data.field
+            });
+            return false;
+        });
+
+        var menuData = getSysData({
+            url: "/sys/menu"
+        });
+
+        for (var i in menuData) {
+            if (!menuData[i].pid) {
+                menuData[i].pid = 0;
+            }
+        }
+
+        //添加
+        $(".addButton").click(function () {
+            requestType = add({
+                title: '添加' + moduleName
+            });
+
+            initAuthTree({
+                data: menuData
+                , checkedKey: []
+            });
+        });
+
+        // 修改
+        $(".editButton").click(function () {
+            requestType = edit({
+                title: '修改' + moduleName
+                , fields: baseUpdateCols
+            });
+            var selectedData = table.checkStatus('table');
+            $.ajax({
+                url: baseUrl + '/aut/' + selectedData.data[0].id,
+                type: 'GET',
+                success: function (data) {
+                    if (data.success) {
+                        initAuthTree({
+                            data: menuData
+                            , checkedKey: data.data
+                        });
+                    } else {
+                        layer.msg(data.message, {icon: 5});
+                    }
+                },
+                error: function (data) {
+                    layer.msg('保存失败', {icon: 5});
+                }
+            });
+        });
+
+        // 添加/修改 保存
+        form.on('submit(saveButton)', function (data) {
+            // 获取所有已选中节点
+            var menuIds = authTree.getChecked('#authTree');
+            var detailList = [];
+            for (var i in menuIds) {
+                var menuId = {
+                    menuId: menuIds[i]
+                };
+                detailList.push(menuId);
+            }
+            data.field.detailList = detailList;
+            saveOrUpdate({
+                url: baseUrl
+                , baseUrl: baseUrl
+                , baseCols: baseCols
+                , type: requestType
+                , data: data.field
+                , isTable: true
+            });
+            return false;
+        });
+
+        // 删除
+        $(".delButton").click(function () {
+            var selectedData = table.checkStatus('table');
+            if (selectedData.data.length != 0) {
+                del({
+                    url: baseUrl + "/" + selectedData.data[0].id
+                    , baseUrl: baseUrl
+                    , baseCols: baseCols
+                    , isTable: true
+                });
+            } else {
+                layer.msg('请选择一条数据', {icon: 0});
+            }
+        });
+
+    });
+
+</script>
+
+<script type="text/html" id="optToolBar">
+    {{#  if(d.stateCode == 'Enable'){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="disable"><i
+            class="layui-icon layui-icon-password"></i>禁用</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="enabled"><i class="layui-icon layui-icon-auz"></i>启用</a>
+    {{#  } }}
+</script>

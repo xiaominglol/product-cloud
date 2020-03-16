@@ -1,0 +1,120 @@
+body {
+    overflow: hidden;
+}
+
+/**/
+.main {
+    color: #64b67f;
+    width: 100%;
+    height: 100%;
+}
+
+/*头部*/
+.main .header {
+    background-color: #393D49;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    color: #64b67f;
+}
+
+/*头部logo*/
+.main .header .logo {
+
+}
+
+/*头部标签*/
+.main .header .tab {
+    flex: 7;
+    text-align: left;
+}
+
+/*头部按钮*/
+.main .header .button {
+    flex: 3;
+    text-align: right;
+}
+
+/*左侧导航*/
+.left {
+    float: left;
+    width: 160px;
+    background-color: #393D49;
+
+}
+
+/*主菜单*/
+.left .main-menu > li {
+    /*如果不设置，二级菜单就会跑到顶端*/
+    position: relative;
+    background-color: #222222;
+    height: 45px;
+}
+
+/*主菜单名字*/
+.left .main-menu > li > div {
+    width: 100%;
+    height: 100%;
+    line-height: 45px;
+    text-align: center;
+}
+
+/*菜单icon*/
+.left .main-menu .icon {
+    width: 30px;
+    height: 30px;
+}
+
+/*菜单箭头*/
+.left .main-menu .arrow-right {
+    width: 15px;
+    height: 15px;
+}
+
+/*主菜单名字*/
+.left .main-menu .main-name {
+    display: inline-block;
+    width: 80px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+/*子菜单*/
+.left .main-menu .sub-menu {
+    /*如果不设置，二级菜单在一级菜单下面，而不是右边*/
+    position: absolute;
+    background-color: #222d32;
+    width: 260px;
+    left: 100%;
+    /*如果不设置，二级菜单就会往一级菜单下面移动，不对称*/
+    top: 0;
+    display: none;
+}
+
+/*子菜单添加下划线*/
+.left .main-menu .sub-menu .sub-name {
+    border-bottom: 1px solid #1AA094;
+}
+
+/*子菜单和三级菜单，并列显示*/
+.left .main-menu .sub-menu > li {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.left .main-menu .sub-menu .third-menu > li {
+    float: left;
+    padding: 10px;
+}
+
+/*右侧工作区*/
+.main .workspace {
+    float: left;
+}
+
+
+
+
+

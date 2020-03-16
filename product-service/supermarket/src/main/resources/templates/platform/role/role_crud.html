@@ -1,0 +1,38 @@
+<div id="addOrUpdate" style="display: none">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">编码<span class="require">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="code" required lay-verify="required" placeholder="请输入编码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称<span class="require">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required lay-verify="required" placeholder="请输入名称"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序<span class="require">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择权限</label>
+            <div class="layui-input-block">
+                <div id="authTree"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>

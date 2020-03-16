@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>系统登陆</title>
+    <link th:href="@{/plugins/login_v3/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/plugins/login_v3/css/signin.css}" rel="stylesheet">
+</head>
+<body class="text-center">
+<form class="form-signin" th:action="@{/login}" method="post">
+    <img class="mb-4" th:src="@{/plugins/login_v3/img/bootstrap-solid.svg}" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+    <!--判断-->
+    <p style="color: red" th:text="${session.msg}" th:if="${not #strings.isEmpty(session.msg)}"></p>
+    <input type="text" name="account" class="form-control" placeholder="请输入用户名" required="" autofocus="" value="admin">
+    <input type="password" name="password" class="form-control" placeholder="请输入密码" required="" value="123456">
+    <!--<div class="checkbox mb-3">
+        <label>
+              <input type="checkbox" name="remember" value="1"/> 记住我
+        </label>
+    </div>-->
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+    <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+</form>
+</body>
+
+</html>

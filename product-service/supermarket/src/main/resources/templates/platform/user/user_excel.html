@@ -1,0 +1,156 @@
+<div id="import" style="display: none">
+    <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <div class="layui-btn-container">
+                <span class="layui-btn layui-btn-sm layui-btn-normal userImportButton">
+                    <i class="layui-icon layui-icon-upload-circle"></i> 用户导入
+                </span>
+                <a th:href="@{/import_template/用户导入模板.xlsx}" class="layui-btn layui-btn-sm"
+                   style="background-color: #5FB878;">
+                    <i class="layui-icon layui-icon-download-circle"></i> 模板下载
+                </a>
+                <span class="layui-btn layui-btn-sm addRowButton">
+                    <i class="layui-icon layui-icon-add-circle"></i> 新增一行
+                </span>
+                <span class="layui-btn layui-btn-sm layui-btn-danger batchDelButton">
+                    <i class="layui-icon layui-icon-delete"></i> 批量删除
+                </span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <table id="importTable" lay-filter="importTable"></table>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveImportButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script th:inline="none">
+
+    layui.use(['form', 'table', 'upload'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var upload = layui.upload;
+
+        //导出
+        $(".exportButton").click(function () {
+            window.location.href = "/user/export";
+        });
+
+        //导入
+        $(".importButton").click(function () {
+            $(".addRowButton").hide();
+            $(".batchDelButton").hide();
+            openPopup({
+                title: '导入用户'
+                , id: "import"
+                , tableId: "importTable"
+            });
+        });
+
+        //用户导入
+        upload.render({
+            elem: '.userImportButton',
+            url: '/user/import',
+            accept: 'file',
+            auto: true,
+            before: function (obj) {
+            },
+            done: function (res) {
+                renderTable({
+                    dom: "importTable"
+                    , data: res.data
+                    , cols: [
+                        {checkbox: true}
+                        , {
+                            field: 'importStatus', title: '导入状态', templet: function (d) {
+                                return d.importStatus == 'ok' ? '<span style="color:#009688">' + d.importStatus + '</span>' : '<span style="color:#FF5722">' + d.importStatus + '</span>'
+                            }
+                        }
+                        , {field: 'account', title: '用户账号', width: 120, edit: "text"}
+                        , {field: 'name', title: '用户名称', width: 120, edit: "text"}
+                        , {
+                            field: 'orgId', title: '所属组织', width: 220, templet: function (d) {
+                                return '<select name="orgId" class=\'layui-input layui-unselect\'lay-ignore></select>'
+                            }
+                        }
+                    ]
+                    , page: false
+                    , isMultiSelect: true
+                });
+
+                $(".addRowButton").show();
+                $(".batchDelButton").show();
+
+                getOrgSelect();
+            }
+        });
+
+        // 导入 保存
+        form.on('submit(saveImportButton)', function (data) {
+            var tableData = table.cache.importTable;
+            for (var i in tableData) {
+                if (tableData[i].importStatus != "ok") {
+                    layer.msg("导入状态异常！", {icon: 5});
+                    return false;
+                }
+                if (!$("#importTable").parent().find("tbody tr").eq(i).find("[name='orgId']").val()) {
+                    layer.msg("请选择所属部门！", {icon: 5});
+                    return false;
+                }
+                tableData[i].orgId = $("#importTable").parent().find("tbody tr").eq(i).find("[name='orgId']").val();
+            }
+            saveOrUpdate({
+                url: '/user/batchSave'
+                , type: 'POST'
+                , contentType: 'application/json;charset=utf-8'
+                , data: JSON.stringify(tableData)
+                , tableId: 'importTable'
+            });
+            return false;
+        });
+
+        // 添加一行
+        $(".addRowButton").click(function () {
+            addRowButton({
+                table: "importTable"
+                , id: "account"
+                , data: {importStatus: "", account: "", name: ""}
+                , done: function () {
+                    getOrgSelect();
+                }
+            });
+        });
+
+        // 批量删除
+        $(".batchDelButton").click(function () {
+            batchDelButton({
+                table: "importTable"
+                , id: "account"
+                , done: function () {
+                    getOrgSelect();
+                }
+            });
+        });
+
+        //获取所属部门下拉框
+        function getOrgSelect() {
+            getSelect({
+                url: "/org"
+                , dom: "[name='orgId']"
+                , isParent: true
+                , isTreeTable: true
+            });
+        }
+
+    });
+
+</script>
+

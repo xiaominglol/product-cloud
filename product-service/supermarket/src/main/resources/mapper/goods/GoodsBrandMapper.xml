@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.goods.mapper.GoodsBrandMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.goods.po.GoodsBrandPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="logo" property="logo" javaType="String"/>
+        <result column="sort" property="sort" javaType="Byte"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="fields">
+                            b.name,
+                    b.category_id,
+                    b.category_name,
+                    b.logo,
+                    b.sort,
+                    b.state_id,
+                    b.state_code,
+                    b.state_name,
+                    b.modify_user_id,
+                    b.modify_user_name,
+                    b.modify_time
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict b
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="name != null and name != ''">
+                and b.name = #{name}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and b.category_id = #{categoryId}
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                and b.category_name = #{categoryName}
+            </if>
+            <if test="logo != null and logo != ''">
+                and b.logo = #{logo}
+            </if>
+            <if test="sort != null and sort != ''">
+                and b.sort = #{sort}
+            </if>
+            <if test="stateId != null and stateId != ''">
+                and b.state_id = #{stateId}
+            </if>
+            <if test="stateCode != null and stateCode != ''">
+                and b.state_code = #{stateCode}
+            </if>
+            <if test="stateName != null and stateName != ''">
+                and b.state_name = #{stateName}
+            </if>
+            <if test="modifyUserId != null and modifyUserId != ''">
+                and b.modify_user_id = #{modifyUserId}
+            </if>
+            <if test="modifyUserName != null and modifyUserName != ''">
+                and b.modify_user_name = #{modifyUserName}
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                and b.modify_time = #{modifyTime}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+</mapper>

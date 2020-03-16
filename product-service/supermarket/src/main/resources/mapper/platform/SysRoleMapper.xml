@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.platform.mapper.RoleMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.platform.po.RolePo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="code" property="code" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="sort" property="sort" javaType="String"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="String"/>
+    </resultMap>
+
+    <resultMap id="AutMap" type="hashmap">
+        <result column="role_id" property="roleId" javaType="Long"/>
+        <result column="menu_id" property="menuId" javaType="Long"/>
+    </resultMap>
+
+    <select id="getAut" parameterType="java.lang.Long" resultMap="AutMap">
+        select
+        role_id, menu_id
+        from platform_role_menu
+        where role_id = #{id}
+    </select>
+
+    <insert id="addAut" parameterType="java.util.Map">
+        insert into platform_role_menu(role_id, menu_id) values
+        <foreach collection="ids" item="menuId" index="index" separator=",">
+            ( #{id}, #{menuId} )
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenu" parameterType="java.lang.Long">
+        delete from platform_role_menu
+        where role_id=#{id}
+    </delete>
+
+</mapper>

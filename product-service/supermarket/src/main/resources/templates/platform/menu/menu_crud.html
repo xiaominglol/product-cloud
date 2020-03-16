@@ -1,0 +1,115 @@
+<div id="addOrUpdate" style="display: none">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称
+                        <span class="require">*</span>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" placeholder="名称"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div id="urlDiv" class="layui-form-item">
+                    <label class="layui-form-label">URL
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="url" placeholder="URL" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div class="layui-form-item" pane>
+                    <label class="layui-form-label">类型
+                        <span class="require">*</span>
+                    </label>
+                    <div class="layui-input-block">
+                        <select name="menuTypeId">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div id="iconDiv" class="layui-form-item">
+                    <label class="layui-form-label">图标</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="icon" placeholder="图标" autocomplete="off" class="layui-input">
+                        <span class="require">获取图标：https://www.layui.com/doc/element/icon.html</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div id="targetDiv" class="layui-form-item">
+                    <label class="layui-form-label">打开方式
+                        <span class="require">*</span>
+                    </label>
+                    <div class="layui-input-block">
+                        <select name="targetId">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div id="permissionsCodeDiv" class="layui-form-item">
+                    <label class="layui-form-label">权限编码
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="permissionsCode" placeholder="多个用逗号分隔，如：user:add,user:update"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序
+                <span class="require">*</span>
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+            <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                新增一行
+            </span>
+            <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                批量删除
+            </span>
+        </div>
+        <div class="layui-form-item">
+            <table id="detailTable" lay-filter="detailTable"></table>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script th:inline="none">
+
+    // 打开方式
+    getDictByCode({
+        dom: "[name='targetId']"
+        , pid: '402609161446912'
+    })
+
+    // 菜单类型
+    getDictByCode({
+        dom: "[name='menuTypeId']"
+        , pid: '402555407246848'
+    })
+
+</script>

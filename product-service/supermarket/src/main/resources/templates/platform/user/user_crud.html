@@ -1,0 +1,95 @@
+<div id="addOrUpdate" style="display: none">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-row">
+            <div class="layui-col-md9">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户账号<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="account" required lay-verify="required" placeholder=""
+                               autocomplete="off" class="layui-input" style="width: 350px;">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户密码<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required lay-verify="required" placeholder=""
+                               autocomplete="off" class="layui-input" style="width: 350px;">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名称<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" placeholder=""
+                               autocomplete="off" class="layui-input" style="width: 350px;">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3" style="border: 1px solid #e6e6e6;">
+                <input type="hidden" name="picture" value="">
+                <a href="javascript:;">
+                    <img src="" class="layui-nav-img pictureUploadButton"
+                         style="width: 142px;height: 142px;margin-left: 9px;">
+                </a>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属组织<span class="require">*</span></label>
+            <div class="layui-input-block">
+                <div class="layui-unselect layui-form-select downpanel">
+                    <div class="layui-select-title">
+                        <span class="layui-input layui-unselect" id="treeName">请选择</span>
+                        <input type="hidden" name="orgId" required lay-verify="required" value="">
+                        <input type="hidden" name="orgName" required lay-verify="required" value="">
+                        <i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit">
+                        <dd>
+                            <ul id="orgId"></ul>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属角色<span class="require">*</span></label>
+            <div class="layui-input-block">
+                <select name="ids" required lay-verify="required" xm-select="roleMultiSelect">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    layui.use(['form', 'table', 'formSelects', 'upload'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var formSelects = layui.formSelects;
+        var upload = layui.upload;
+        var baseUrl = "/sys/user";
+        var moduleName = "用户";
+        var requestType;
+        var picture = "/img/icon/64/default_picture.png";
+        var baseUpdateCols = [
+            {field: 'account', type: "text"}
+            , {field: 'password', type: "text"}
+            , {field: 'name', type: "text"}
+            , {field: 'picture', type: "text"}
+            , {field: 'orgId', type: "text"}
+            , {field: 'orgName', type: "text"}
+        ];
+
+
+    });
+</script>
+

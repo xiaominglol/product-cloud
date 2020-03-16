@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.order.mapper.OrderMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.order.po.OrderPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="order_no" property="orderNo" javaType="String"/>
+        <result column="member_id" property="memberId" javaType="Long"/>
+        <result column="member_nickname" property="memberNickname" javaType="String"/>
+        <result column="coupon_id" property="couponId" javaType="Long"/>
+        <result column="coupon_name" property="couponName" javaType="String"/>
+        <result column="total_price" property="totalPrice" javaType="java.math.BigDecimal"/>
+        <result column="discount_amount" property="discountAmount" javaType="java.math.BigDecimal"/>
+        <result column="pay_amount" property="payAmount" javaType="java.math.BigDecimal"/>
+        <result column="receiver_name" property="receiverName" javaType="String"/>
+        <result column="receiver_phone" property="receiverPhone" javaType="String"/>
+        <result column="receiver_province" property="receiverProvince" javaType="String"/>
+        <result column="receiver_city" property="receiverCity" javaType="String"/>
+        <result column="receiver_county" property="receiverCounty" javaType="String"/>
+        <result column="receiver_detail_address" property="receiverDetailAddress" javaType="String"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="payment_time" property="paymentTime" javaType="java.util.Date"/>
+        <result column="receive_time" property="receiveTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="fields">
+                            o.order_no,
+                    o.member_id,
+                    o.member_nickname,
+                    o.coupon_id,
+                    o.coupon_name,
+                    o.total_price,
+                    o.discount_amount,
+                    o.pay_amount,
+                    o.receiver_name,
+                    o.receiver_phone,
+                    o.receiver_province,
+                    o.receiver_city,
+                    o.receiver_county,
+                    o.receiver_detail_address,
+                    o.state_id,
+                    o.state_code,
+                    o.state_name,
+                    o.create_time,
+                    o.payment_time,
+                    o.receive_time
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict o
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                and o.order_no = #{orderNo}
+            </if>
+            <if test="memberId != null and memberId != ''">
+                and o.member_id = #{memberId}
+            </if>
+            <if test="memberNickname != null and memberNickname != ''">
+                and o.member_nickname = #{memberNickname}
+            </if>
+            <if test="couponId != null and couponId != ''">
+                and o.coupon_id = #{couponId}
+            </if>
+            <if test="couponName != null and couponName != ''">
+                and o.coupon_name = #{couponName}
+            </if>
+            <if test="totalPrice != null and totalPrice != ''">
+                and o.total_price = #{totalPrice}
+            </if>
+            <if test="discountAmount != null and discountAmount != ''">
+                and o.discount_amount = #{discountAmount}
+            </if>
+            <if test="payAmount != null and payAmount != ''">
+                and o.pay_amount = #{payAmount}
+            </if>
+            <if test="receiverName != null and receiverName != ''">
+                and o.receiver_name = #{receiverName}
+            </if>
+            <if test="receiverPhone != null and receiverPhone != ''">
+                and o.receiver_phone = #{receiverPhone}
+            </if>
+            <if test="receiverProvince != null and receiverProvince != ''">
+                and o.receiver_province = #{receiverProvince}
+            </if>
+            <if test="receiverCity != null and receiverCity != ''">
+                and o.receiver_city = #{receiverCity}
+            </if>
+            <if test="receiverCounty != null and receiverCounty != ''">
+                and o.receiver_county = #{receiverCounty}
+            </if>
+            <if test="receiverDetailAddress != null and receiverDetailAddress != ''">
+                and o.receiver_detail_address = #{receiverDetailAddress}
+            </if>
+            <if test="stateId != null and stateId != ''">
+                and o.state_id = #{stateId}
+            </if>
+            <if test="stateCode != null and stateCode != ''">
+                and o.state_code = #{stateCode}
+            </if>
+            <if test="stateName != null and stateName != ''">
+                and o.state_name = #{stateName}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and o.create_time = #{createTime}
+            </if>
+            <if test="paymentTime != null and paymentTime != ''">
+                and o.payment_time = #{paymentTime}
+            </if>
+            <if test="receiveTime != null and receiveTime != ''">
+                and o.receive_time = #{receiveTime}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

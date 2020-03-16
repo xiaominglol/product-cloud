@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.order.mapper.OrderRefundMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.order.po.OrderRefundPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="order_id" property="orderId" javaType="Long"/>
+        <result column="order_no" property="orderNo" javaType="String"/>
+        <result column="order_goods_id" property="orderGoodsId" javaType="Long"/>
+        <result column="member_id" property="memberId" javaType="Long"/>
+        <result column="member_nickname" property="memberNickname" javaType="String"/>
+        <result column="unit_price" property="unitPrice" javaType="java.math.BigDecimal"/>
+        <result column="quantity" property="quantity" javaType="Long"/>
+        <result column="total_price" property="totalPrice" javaType="java.math.BigDecimal"/>
+        <result column="discount_amount" property="discountAmount" javaType="java.math.BigDecimal"/>
+        <result column="refund_amount" property="refundAmount" javaType="java.math.BigDecimal"/>
+        <result column="refund_reason" property="refundReason" javaType="String"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="refund_time" property="refundTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="fields">
+                            r.order_id,
+                    r.order_no,
+                    r.order_goods_id,
+                    r.member_id,
+                    r.member_nickname,
+                    r.unit_price,
+                    r.quantity,
+                    r.total_price,
+                    r.discount_amount,
+                    r.refund_amount,
+                    r.refund_reason,
+                    r.state_id,
+                    r.state_code,
+                    r.state_name,
+                    r.refund_time
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict r
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="orderId != null and orderId != ''">
+                and r.order_id = #{orderId}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                and r.order_no = #{orderNo}
+            </if>
+            <if test="orderGoodsId != null and orderGoodsId != ''">
+                and r.order_goods_id = #{orderGoodsId}
+            </if>
+            <if test="memberId != null and memberId != ''">
+                and r.member_id = #{memberId}
+            </if>
+            <if test="memberNickname != null and memberNickname != ''">
+                and r.member_nickname = #{memberNickname}
+            </if>
+            <if test="unitPrice != null and unitPrice != ''">
+                and r.unit_price = #{unitPrice}
+            </if>
+            <if test="quantity != null and quantity != ''">
+                and r.quantity = #{quantity}
+            </if>
+            <if test="totalPrice != null and totalPrice != ''">
+                and r.total_price = #{totalPrice}
+            </if>
+            <if test="discountAmount != null and discountAmount != ''">
+                and r.discount_amount = #{discountAmount}
+            </if>
+            <if test="refundAmount != null and refundAmount != ''">
+                and r.refund_amount = #{refundAmount}
+            </if>
+            <if test="refundReason != null and refundReason != ''">
+                and r.refund_reason = #{refundReason}
+            </if>
+            <if test="stateId != null and stateId != ''">
+                and r.state_id = #{stateId}
+            </if>
+            <if test="stateCode != null and stateCode != ''">
+                and r.state_code = #{stateCode}
+            </if>
+            <if test="stateName != null and stateName != ''">
+                and r.state_name = #{stateName}
+            </if>
+            <if test="refundTime != null and refundTime != ''">
+                and r.refund_time = #{refundTime}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

@@ -1,0 +1,252 @@
+<div th:replace="common/header"></div>
+<div class="layui-layout layui-layout-admin">
+
+    <!-- 水平菜单 -->
+    <div class="layui-header">
+        <!-- logo -->
+        <div class="layui-logo"><img th:src="@{/img/logo_new.png}" style="width: 95px;"></div>
+        <!-- 一级菜单 -->
+        <ul class="layui-nav layui-layout-left">
+            <!--
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+            -->
+        </ul>
+        <!-- 小图标 -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);" style="padding: 0 10px;">
+                    <i class="layui-icon layui-icon-speaker" style="font-size: 25px;">
+                        <span class="layui-badge-dot" style="top: 25px;left: 25px;"></span>
+                    </i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);" style="padding: 0 10px;">
+                    <i class="layui-icon layui-icon-login-wechat" style="font-size: 25px;"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);" style="padding: 0 10px;">
+                    <i class="layui-icon layui-icon-login-qq" style="font-size: 25px;"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);" style="padding: 0 10px;">
+                    <i class="layui-icon layui-icon-login-weibo" style="font-size: 25px;"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <p style="color: red" th:text="${session.msg}" th:if="${not #strings.isEmpty(session.msg)}"></p>
+                <a href="javascript:;" style="margin-bottom: 5px;">
+                    <img th:src="${session.user.picture}" class="layui-nav-img">
+                    [[${session.user.name}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="/logout">退出系统</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 垂直菜单 -->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 子菜单 -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="subMenu">
+                <!--
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有商品</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">发布商品</a></li>
+                -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- 内容主体区域 -->
+    <div class="layui-body">
+        <!--<span class="layui-breadcrumb">
+          <a href="">首页</a>
+          <a href="">国际新闻</a>
+          <a href="">亚太地区</a>
+          <a><cite>正文</cite></a>
+        </span>-->
+    </div>
+
+    <!-- 底部固定区域 -->
+    <!--
+    <div class="layui-footer">
+        © layui.com - 底部固定区域
+    </div>
+    -->
+</div>
+
+<script>
+    layui.use(['element'], function () {
+        var element = layui.element;
+
+        //初始化菜单
+        initMenu();
+
+        //菜单数据
+        var menuData = null;
+        //当前菜单
+        var current_menu = "";
+
+        function initMenu() {
+            $.ajax({
+                url: "/sys/menu/list",
+                type: "GET",
+                success: function (data) {
+                    menuData = data.data;
+                    loadMainMenu(menuData);
+                }
+            });
+        }
+
+        //加载一级菜单
+        function loadMainMenu(menuData) {
+            //首页
+            var main_menu_html = "<li class='layui-nav-item'><a href='javascript:;' onclick='loadBody(\"/home\");'><i class='layui-icon layui-icon-home'></i>主页</a></li>";
+            for (var i in menuData) {
+                //先渲染一级菜单
+                if (!menuData[i].pid) {
+                    //如果是目录
+                    if (menuData[i].menuTypeCode == "Directory") {
+                        main_menu_html += "<li class='layui-nav-item'><a href='javascript:void(0);' onclick='loadSubMenu(" + menuData[i].id + ");'>" +
+                            "<i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a></li>";
+                    } else {
+                        //否则是菜单
+                        main_menu_html += "<li class='layui-nav-item'>";
+                        if (menuData[i].targetCode == "_blank") {//新窗口
+                            main_menu_html += "<a href='" + menuData[i].url + "' target='" + menuData[i].targetCode + "'>";
+                        } else if (menuData[i].targetCode == "_self") {//当前窗口
+                            main_menu_html += "<a href='javascript:void(0);' onclick='loadBody(\"" + menuData[i].url + "\");'>";
+                        }
+                        main_menu_html += "<i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a></li>";
+                    }
+
+                    //初始化排序第一的菜单
+                    if (!current_menu) {
+                        current_menu = menuData[i].id;
+                    }
+                }
+            }
+            $(".layui-layout-left").html(main_menu_html);
+            //如果你的HTML是动态生成的，自动渲染就会失效
+            //因此你需要在相应的地方，执行下述方法来手动渲染
+            element.render();
+            //初始化排序第一的菜单的子菜单
+            loadSubMenu(current_menu);
+        }
+
+        //加载二级菜单
+        window.loadSubMenu = function (current_menu) {
+            //二级菜单
+            var sub_menu_html = "";
+            //是否为第一个二级菜单
+            var isFirstSubMenu = true;
+            for (var i in menuData) {
+                if (current_menu == menuData[i].pid) {
+                    //初始化打开第一个二级菜单，显示三级菜单，有bug，如果排第一没有三级菜单呢？
+                    if (isFirstSubMenu == true) {
+                        isFirstSubMenu = false;
+                        sub_menu_html += "<li class='layui-nav-item layui-nav-itemed'>";
+                    } else {
+                        sub_menu_html += "<li class='layui-nav-item'>";
+                    }
+                    //如果是目录
+                    if (menuData[i].menuTypeCode == "Directory") {
+                        sub_menu_html += "<a href='javascript:;'><i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a>";
+                    } else {
+                        //否则是菜单
+                        if (menuData[i].targetCode == "_blank") {//新窗口
+                            sub_menu_html += "<a href='" + menuData[i].url + "' target='" + menuData[i].targetCode + "'>";
+                        } else if (menuData[i].targetCode == "_self") {//当前窗口
+                            sub_menu_html += "<a href='javascript:void(0);' onclick='loadBody(\"" + menuData[i].url + "\");'>";
+                        }
+                        sub_menu_html += "<i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a>";
+                    }
+
+                    //三级菜单
+                    var third_menu_html = "<dl class='layui-nav-child'>";
+                    for (var j in menuData) {
+                        if (menuData[i].id == menuData[j].pid) {
+                            //如果是目录
+                            if (menuData[j].menuTypeCode == "Directory") {
+                                third_menu_html += "<dd><a href='javascript:;'><i class='layui-icon " + menuData[j].icon + "'></i>" + menuData[j].name + "</a></dd>";
+                            } else {
+                                //否则是菜单
+                                third_menu_html += "<dd>";
+                                if (menuData[j].targetCode == "_blank") {//新窗口
+                                    third_menu_html += "<a href='" + menuData[j].url + "' target='" + menuData[j].targetCode + "'>";
+                                } else if (menuData[j].targetCode == "_self") {//当前窗口
+                                    third_menu_html += "<a href='javascript:void(0);' onclick='loadBody(\"" + menuData[j].url + "\");'>";
+                                }
+                                third_menu_html += "<i class='layui-icon " + menuData[j].icon + "'></i>" + menuData[j].name + "</a></dd>";
+                            }
+                        }
+                    }
+                    third_menu_html += "</dl>";
+                    //判断是否存在子菜单，存在就拼接
+                    if (third_menu_html.indexOf("<dd>") != -1) {
+                        sub_menu_html = sub_menu_html + third_menu_html;
+                    }
+                    sub_menu_html += "</li>";
+                }
+            }
+            $(".layui-nav-tree").html(sub_menu_html);
+
+            //如果你的HTML是动态生成的，自动渲染就会失效
+            //因此你需要在相应的地方，执行下述方法来手动渲染
+            element.render('nav', 'subMenu');
+        };
+
+        //默认加载主页
+        $.ajax({
+            url: "/home",
+            type: "GET",
+            success: function (data) {
+                $(".layui-body").html(data);
+            }
+        });
+
+        //加载内容
+        window.loadBody = function (url) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (data) {
+                    $(".layui-body").html(data);
+                }
+            })
+        }
+    });
+
+</script>

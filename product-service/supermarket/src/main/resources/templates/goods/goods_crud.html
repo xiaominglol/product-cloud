@@ -1,0 +1,216 @@
+<div id="addOrUpdate" style="display: none">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md6">
+                <div class="layui-form-item" pane>
+                    <label class="layui-form-label">所属分类
+                        <span class="require">*</span>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="categoryName">
+                        <select name="categoryId" lay-filter="categoryId" required lay-verify="required">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+
+            <div class="layui-col-md6">
+                <div class="layui-form-item" pane>
+                    <label class="layui-form-label">所属品牌
+                        <span class="require">*</span>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="picture" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+
+            <div class="layui-col-md6">
+                <div class="layui-form-item" pane>
+                    <label class="layui-form-label">图片
+                        <span class="require">*</span>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="brandName">
+                        <select name="brandId" lay-filter="brandId" required lay-verify="required">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-form-item">
+                <div class="layui-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">设置规格</li>
+                        <li>参数设置</li>
+                    </ul>
+
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div id="specification" class="layui-form-item">
+                            </div>
+                            <table id="specificationTable" lay-filter="specificationTable"></table>
+                        </div>
+
+                        <div class="layui-tab-item">
+                            <table id="paramTable" lay-filter="paramTable"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script th:inline="none">
+
+    layui.use(['form', 'table'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var specificationName = [];
+
+        // 遍历分类
+        $.ajax({
+            url: '/goods/category'
+            , type: 'GET'
+            , success: function (data) {
+                if (data.success) {
+                    var data = data.data;
+                    var html = "";
+                    //否则下拉框
+                    html += "<option value=''>请选择</option>";
+                    for (var i in data) {
+                        html += "<option value='" + data[i].id;
+                        html += "'>" + data[i].name + "</option>";
+                    }
+                    $("[name='categoryId']").html(html);
+                    form.render();
+                }
+            }
+        });
+
+
+        // 下拉分类带出品牌和规格
+        form.on('select(categoryId)', function (data) {
+            $("[name='categoryName']").val($("[name='categoryId']").find("option:selected").text());
+            $.ajax({
+                url: '/goods/brand'
+                , type: 'GET'
+                , data: {categoryId: data.value}
+                , success: function (data) {
+                    if (data.success) {
+                        var data = data.data;
+                        var html = "";
+                        //否则下拉框
+                        html += "<option value=''>请选择</option>";
+                        for (var i in data) {
+                            html += "<option value='" + data[i].id;
+                            html += "'>" + data[i].name + "</option>";
+                        }
+                        $("[name='brandId']").html(html);
+                        form.render();
+                    }
+                }
+            });
+
+
+            $.ajax({
+                url: '/goods/specification'
+                , type: 'GET'
+                , data: {categoryId: data.value}
+                , success: function (data) {
+                    if (data.success) {
+
+                        var data = data.data;
+                        var html = "";
+                        for (var i in data) {
+                            specificationName.push(data[i].name);
+                            html += '<label class="layui-form-label">' + data[i].name + '</label>';
+                            html += '<div class="layui-input-block">';
+                            var value = data[i].value.split(",");
+                            for (var j in value) {
+                                html += '<input type="checkbox" name="' + ("specification" + i + j) + '" title="' + value[j] + '" lay-skin="primary" lay-filter="specification">';
+                            }
+                            html += '</div>';
+                        }
+                        $("#specification").html(html);
+                        form.render();
+
+                    }
+                }
+            });
+        });
+
+        form.on('select(brandId)', function (data) {
+            $("[name='brandName']").val($("[name='brandId']").find("option:selected").text());
+        });
+
+        form.on('checkbox(specification)', function (data) {
+            console.log(data.elem); //得到checkbox原始DOM对象
+            console.log(data.elem.checked); //是否被选中，true或者false
+            console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+            console.log(data.othis); //得到美化后的DOM对象
+
+            var cols = [
+                {field: 'original_price', title: '原价', edit: 'text'},
+                {field: 'current_price', title: '现价', edit: 'text'},
+                {field: 'surplus_stock', title: '剩余库存', edit: 'text'}
+            ];
+            var data = [];
+
+            for (var i in specificationName) {
+                var col = {
+                    field: i, title: specificationName[i], edit: 'text'
+                };
+                var d = {
+                    "original_price": ""
+                    , "current_price": ""
+                    , "surplus_stock": ""
+                };
+                data.unshift(d);
+                cols.unshift(col);
+            }
+
+            if (data.elem.checked) {
+                data.elem.attr("title");
+            }
+
+            var checkId = $("input[name='specification']:checked");
+            console.log("check", checkId)
+            table.render({
+                elem: '#specificationTable'
+                , data: data
+                , id: 'specificationTable'
+                , cols: [cols]
+                , done: function (res, curr, count) {
+                }
+            });
+        });
+    });
+
+
+</script>

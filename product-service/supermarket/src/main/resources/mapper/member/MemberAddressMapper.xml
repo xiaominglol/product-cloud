@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.member.mapper.MemberAddressMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.member.po.MemberAddressPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="member_id" property="memberId" javaType="Long"/>
+        <result column="member_nickname" property="memberNickname" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="phone" property="phone" javaType="String"/>
+        <result column="province" property="province" javaType="String"/>
+        <result column="city" property="city" javaType="String"/>
+        <result column="county" property="county" javaType="String"/>
+        <result column="detail_address" property="detailAddress" javaType="String"/>
+        <result column="is_default" property="isDefault" javaType="Byte"/>
+    </resultMap>
+
+    <sql id="fields">
+                            a.member_id,
+                    a.member_nickname,
+                    a.name,
+                    a.phone,
+                    a.province,
+                    a.city,
+                    a.county,
+                    a.detail_address,
+                    a.is_default
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict a
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="memberId != null and memberId != ''">
+                and a.member_id = #{memberId}
+            </if>
+            <if test="memberNickname != null and memberNickname != ''">
+                and a.member_nickname = #{memberNickname}
+            </if>
+            <if test="name != null and name != ''">
+                and a.name = #{name}
+            </if>
+            <if test="phone != null and phone != ''">
+                and a.phone = #{phone}
+            </if>
+            <if test="province != null and province != ''">
+                and a.province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and a.city = #{city}
+            </if>
+            <if test="county != null and county != ''">
+                and a.county = #{county}
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                and a.detail_address = #{detailAddress}
+            </if>
+            <if test="isDefault != null and isDefault != ''">
+                and a.is_default = #{isDefault}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

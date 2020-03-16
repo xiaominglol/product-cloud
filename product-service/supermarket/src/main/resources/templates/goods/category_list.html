@@ -1,0 +1,571 @@
+<div th:replace="goods/category_crud"></div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md2">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="tree"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md10">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="content">
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <blockquote class="layui-elem-quote layui-quote-nm">
+                                    <form class="layui-form layui-form-pane queryFrom">
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">名称</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="name" placeholder="请输入名称"
+                                                           autocomplete="off"
+                                                           class="layui-input">
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-inline">
+                                                <div class="layui-input-inline" style="width: 100%">
+                                                    <div class="layui-btn-container">
+                                                        <button class="layui-btn layui-btn-sm layui-btn-normal"
+                                                                lay-submit
+                                                                lay-filter="queryButton">
+                                                            <i class="layui-icon layui-icon-search"></i>查询
+                                                        </button>
+                                                        <button type="reset"
+                                                                class="layui-btn layui-btn-sm layui-btn-rest">
+                                                            <i class="layui-icon layui-icon-refresh-1"></i>重置
+                                                        </button>
+                                                        <span class="layui-btn layui-btn-sm addButton">
+                                                <i class="layui-icon layui-icon-add-circle"></i> 添加
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm batchAddButton">
+                                                <i class="layui-icon layui-icon-add-circle"></i> 批量添加
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm layui-btn-warm editButton">
+                                                <i class="layui-icon layui-icon-edit"></i> 修改
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm layui-btn-danger delButton">
+                                                <i class="layui-icon layui-icon-delete"></i> 删除
+                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <table id="table" lay-filter="table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="none">
+
+    layui.use(['form', 'table'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var baseUrl = "/goods/category";
+        var moduleName = "分类";
+        var requestType;
+        var baseCols = [[
+            {checkbox: true}
+            , {field: 'name', title: '名称'}
+            , {field: 'icon', title: 'icon'}
+            , {field: 'sort', title: '排序'}
+            , {title: '操作', width: 420, toolbar: '#optToolBar'}
+        ]];
+        var baseDetailCols = [
+            {type: 'checkbox', width: 35}
+            , {field: 'name', title: '名称', edit: 'text'}
+            , {field: 'icon', title: 'icon', edit: 'text'}
+            , {field: 'sort', title: '排序', edit: 'text'}
+        ];
+        var baseUpdateCols = [
+            {field: 'name', type: "text"}
+            , {field: 'icon', type: "text"}
+            , {field: 'sort', type: "text"}
+        ];
+
+        var specificationCols = [
+            {type: 'checkbox', width: 35}
+            , {field: 'name', type: "text"}
+            , {field: 'value', type: "text"}
+            , {field: 'sort', type: "text"}
+        ];
+        var paramCols = [
+            {type: 'checkbox', width: 35}
+            , {field: 'name', type: "text"}
+            , {field: 'value', type: "text"}
+            , {field: 'sort', type: "text"}
+        ];
+
+        //左侧树
+        renderTree({
+            url: baseUrl
+            , click: function (node) {
+                renderTreeTable({
+                    url: baseUrl
+                    , data: {id: node.id}
+                    , cols: baseCols
+                });
+            }
+        });
+
+        //右侧树形表格
+        renderTreeTable({
+            url: baseUrl
+            , cols: baseCols
+        });
+
+        //查询
+        form.on('submit(queryButton)', function (data) {
+            renderTreeTable({
+                url: baseUrl
+                , data: data.field
+                , cols: baseCols
+            });
+            return false;
+        });
+        //添加
+        $(".addButton").click(function () {
+            requestType = add({
+                title: '添加' + moduleName
+                , baseDetailCols: baseDetailCols
+            });
+
+            table.render({
+                elem: '#specificationDetailTable'
+                , data: []
+                , id: 'specificationDetailTable'
+                , cols: [specificationCols]
+                , page: true
+                , done: function (res, curr, count) {
+                    checkboxMultiSelect($, "specificationDetailTable");
+                }
+            });
+
+            table.render({
+                elem: '#paramDetailTable'
+                , data: []
+                , id: 'paramDetailTable'
+                , cols: [paramCols]
+                , page: true
+                , done: function (res, curr, count) {
+                    checkboxMultiSelect($, "paramDetailTable");
+                }
+            });
+        });
+
+        // 修改
+        $(".editButton").click(function () {
+            requestType = edit({
+                title: '修改' + moduleName
+                , url: baseUrl
+                , baseDetailCols: baseDetailCols
+                , fields: baseUpdateCols
+            });
+        });
+
+        // 添加/修改 保存
+        form.on('submit(saveButton)', function (data) {
+            data.field.detailList = table.cache.detailTable;
+            saveOrUpdate({
+                url: baseUrl
+                , baseUrl: baseUrl
+                , baseCols: baseCols
+                , type: requestType
+                , data: data.field
+            });
+            return false;
+        });
+
+        // 批量添加
+        $(".batchAddButton").click(function () {
+            requestType = add({
+                id: "batchAddOrUpdate"
+                , title: '批量添加' + moduleName
+            });
+        });
+
+        form.on('submit(batchSaveButton)', function (data) {
+            console.log("data", data)
+            saveOrUpdate({
+                url: baseUrl + "/batchAdd"
+                , baseUrl: baseUrl
+                , baseCols: baseCols
+                , type: requestType
+                , data: data.field
+            });
+            return false;
+        });
+
+        // 删除
+        $(".delButton").click(function () {
+            var selectedData = table.checkStatus('table');
+            if (selectedData.data.length != 0) {
+                del({
+                    url: baseUrl + "/" + selectedData.data[0].id
+                    , baseUrl: baseUrl
+                    , baseCols: baseCols
+                });
+            } else {
+                layer.msg('请选择一条数据', {icon: 0});
+            }
+        });
+
+        // 新增一行 明细
+        $(".add_detail").click(function () {
+            addRowButton({
+                table: "detailTable"
+                , cols: baseDetailCols
+            })
+        });
+
+        // 批量删除 明细
+        $(".delete_detail").click(function () {
+            batchDelButton({
+                table: "detailTable"
+                , cols: baseDetailCols
+            })
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            //启用
+            if (layEvent == "enabled") {
+                data.stateId = 391933416176131;
+                confirmUpdate({
+                    msg: "启用"
+                    , url: baseUrl
+                    , baseUrl: baseUrl
+                    , baseCols: baseCols
+                    , data: data
+                    , isTable: true
+                })
+            }
+            //禁用
+            if (layEvent == "disable") {
+                data.stateId = 391933416176129;
+                confirmUpdate({
+                    msg: "禁用"
+                    , url: baseUrl
+                    , baseUrl: baseUrl
+                    , baseCols: baseCols
+                    , data: data
+                    , isTable: true
+                })
+            }
+
+            //设置品牌
+            if (layEvent == "brand") {
+                requestType = "POST";
+                $("#brand [name='id']").val("");
+                $("#brand [name='categoryId']").val(data.id);
+                $("#brand [name='categoryName']").val(data.name);
+                // 打开添加框
+                openPopup({
+                    id: "brand"
+                    , title: "设置品牌"
+                });
+                renderTable({
+                    dom: "brandDetailTable"
+                    , url: "/goods/brand"
+                    , height: ""
+                    , page: true
+                    , where: {"categoryId": data.id}
+                    , cols: [[
+                        {type: 'checkbox', width: 35}
+                        , {field: 'name', title: '名称'}
+                        , {field: 'logo', title: 'logo'}
+                        , {field: 'sort', title: '排序'}
+                        , {title: '操作', toolbar: '#brandToolBar'}
+                    ]]
+                });
+            }
+
+            //设置规格
+            if (layEvent == "specification") {
+                requestType = "POST";
+                $("#specification [name='id']").val("");
+                $("#specification [name='categoryId']").val(data.id);
+                $("#specification [name='categoryName']").val(data.name);
+                // 打开添加框
+                openPopup({
+                    id: "specification"
+                    , title: "设置规格"
+                });
+                renderTable({
+                    dom: "specificationDetailTable"
+                    , url: "/goods/specification"
+                    , height: ""
+                    , page: true
+                    , where: {"categoryId": data.id}
+                    , cols: [[
+                        {type: 'checkbox', width: 35}
+                        , {field: 'name', title: '名称'}
+                        , {field: 'value', title: '值'}
+                        , {field: 'sort', title: '排序'}
+                        , {title: '操作', toolbar: '#specificationToolBar'}
+                    ]]
+                });
+            }
+
+            //设置参数
+            if (layEvent == "param") {
+                requestType = "POST";
+                $("#param [name='id']").val("");
+                $("#param [name='categoryId']").val(data.id);
+                $("#param [name='categoryName']").val(data.name);
+                // 打开添加框
+                openPopup({
+                    id: "param"
+                    , title: "设置参数"
+                });
+                renderTable({
+                    dom: "paramDetailTable"
+                    , url: "/goods/category/param"
+                    , height: ""
+                    , page: true
+                    , where: {"categoryId": data.id}
+                    , cols: [[
+                        {type: 'checkbox', width: 35}
+                        , {field: 'name', title: '名称'}
+                        , {field: 'value', title: '值'}
+                        , {field: 'sort', title: '排序'}
+                        , {title: '操作', toolbar: '#paramToolBar'}
+                    ]]
+                });
+            }
+
+        });
+
+        // 品牌删除
+        table.on('tool(brandDetailTable)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            if (layEvent == "deleteBrand") {
+                del({
+                    url: "/goods/brand/" + data.id
+                    , dom: "brandDetailTable"
+                    , baseUrl: "/goods/brand"
+                    , baseCols: [[
+                        {type: 'checkbox', width: 35}
+                        , {field: 'name', title: '名称'}
+                        , {field: 'logo', title: 'logo'}
+                        , {field: 'sort', title: '排序'}
+                        , {title: '操作', toolbar: '#brandToolBar'}
+                    ]]
+                    , where: {"categoryId": data.categoryId}
+                    , height: ""
+                    , isTable: true
+                    , close: false
+                });
+                $("#brand [name='id']").val("");
+            }
+
+        });
+
+        // 品牌修改
+        table.on('row(brandDetailTable)', function (obj) {
+            var data = obj.data;
+            requestType = "PUT";
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+            $("#brand [name='id']").val(data.id);
+            $("#brand [name='name']").val(data.name);
+            $("#brand [name='logo']").val(data.logo);
+            $("#brand [name='sort']").val(data.sort);
+        });
+
+        // 品牌保存
+        form.on('submit(saveBrandButton)', function (data) {
+            saveOrUpdate({
+                url: "/goods/brand"
+                , baseUrl: "/goods/brand"
+                , dom: "brandDetailTable"
+                , baseCols: [[
+                    {type: 'checkbox', width: 35}
+                    , {field: 'name', title: '名称'}
+                    , {field: 'logo', title: 'logo'}
+                    , {field: 'sort', title: '排序'}
+                    , {title: '操作', toolbar: '#brandToolBar'}
+                ]]
+                , where: {"categoryId": data.field.categoryId}
+                , type: requestType
+                , data: data.field
+                , page: true
+                , height: ""
+                , isTable: true
+                , close: false
+            });
+            return false;
+        });
+
+        // 规格删除
+        table.on('tool(specificationDetailTable)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            if (layEvent == "deleteSpecification") {
+                del({
+                    url: "/goods/specification/" + data.id
+                    , dom: "specificationDetailTable"
+                    , baseUrl: "/goods/specification"
+                    , baseCols: [[
+                        {type: 'checkbox', width: 35}
+                        , {field: 'name', title: '名称'}
+                        , {field: 'value', title: '值'}
+                        , {field: 'sort', title: '排序'}
+                        , {title: '操作', toolbar: '#specificationToolBar'}
+                    ]]
+                    , where: {"categoryId": data.categoryId}
+                    , height: ""
+                    , isTable: true
+                    , close: false
+                });
+                $("#specification [name='id']").val("");
+            }
+
+        });
+
+        // 规格修改
+        table.on('row(specificationDetailTable)', function (obj) {
+            var data = obj.data;
+            requestType = "PUT";
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+            $("#specification [name='id']").val(data.id);
+            $("#specification [name='name']").val(data.name);
+            $("#specification [name='value']").val(data.value);
+            $("#specification [name='sort']").val(data.sort);
+        });
+
+        // 规格保存
+        form.on('submit(saveSpecificationButton)', function (data) {
+            saveOrUpdate({
+                url: "/goods/specification"
+                , baseUrl: "/goods/specification"
+                , dom: "specificationDetailTable"
+                , baseCols: [[
+                    {type: 'checkbox', width: 35}
+                    , {field: 'name', title: '名称'}
+                    , {field: 'value', title: '值'}
+                    , {field: 'sort', title: '排序'}
+                    , {title: '操作', toolbar: '#specificationToolBar'}
+                ]]
+                , where: {"categoryId": data.field.categoryId}
+                , type: requestType
+                , data: data.field
+                , page: true
+                , height: ""
+                , isTable: true
+                , close: false
+            });
+            return false;
+        });
+
+        // 参数删除
+        table.on('tool(paramDetailTable)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            if (layEvent == "deleteParam") {
+                del({
+                    url: "/goods/category/param/" + data.id
+                    , dom: "paramDetailTable"
+                    , baseUrl: "/goods/category/param"
+                    , baseCols: [[
+                        {type: 'checkbox', width: 35}
+                        , {field: 'name', title: '名称'}
+                        , {field: 'value', title: '值'}
+                        , {field: 'sort', title: '排序'}
+                        , {title: '操作', toolbar: '#paramToolBar'}
+                    ]]
+                    , where: {"categoryId": data.categoryId}
+                    , height: ""
+                    , isTable: true
+                    , close: false
+                });
+                $("#param [name='id']").val("");
+            }
+
+        });
+
+        // 参数修改
+        table.on('row(paramDetailTable)', function (obj) {
+            var data = obj.data;
+            requestType = "PUT";
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+            $("#param [name='id']").val(data.id);
+            $("#param [name='name']").val(data.name);
+            $("#param [name='value']").val(data.value);
+            $("#param [name='sort']").val(data.sort);
+        });
+
+        // 参数保存
+        form.on('submit(saveParamButton)', function (data) {
+            saveOrUpdate({
+                url: "/goods/category/param"
+                , baseUrl: "/goods/category/param"
+                , dom: "paramDetailTable"
+                , baseCols: [[
+                    {type: 'checkbox', width: 35}
+                    , {field: 'name', title: '名称'}
+                    , {field: 'value', title: '值'}
+                    , {field: 'sort', title: '排序'}
+                    , {title: '操作', toolbar: '#paramToolBar'}
+                ]]
+                , where: {"categoryId": data.field.categoryId}
+                , type: requestType
+                , data: data.field
+                , page: true
+                , height: ""
+                , isTable: true
+                , close: false
+            });
+            return false;
+        });
+
+
+    });
+
+</script>
+
+<script type="text/html" id="optToolBar">
+    {{#  if(d.stateCode == 'Enable'){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="disable"><i
+            class="layui-icon layui-icon-password"></i>禁用</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="enabled"><i class="layui-icon layui-icon-auz"></i>启用</a>
+    {{#  } }}
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="brand"><i class="layui-icon layui-icon-auz"></i>设置品牌</a>
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="specification"><i class="layui-icon layui-icon-auz"></i>设置规格</a>
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="param"><i class="layui-icon layui-icon-auz"></i>设置参数</a>
+</script>
+
+<script type="text/html" id="brandToolBar">
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="deleteBrand"><i class="layui-icon layui-icon-auz"></i>删除</a>
+</script>
+<script type="text/html" id="specificationToolBar">
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="deleteSpecification"><i
+            class="layui-icon layui-icon-auz"></i>删除</a>
+</script>
+<script type="text/html" id="paramToolBar">
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="deleteParam"><i class="layui-icon layui-icon-auz"></i>删除</a>
+</script>

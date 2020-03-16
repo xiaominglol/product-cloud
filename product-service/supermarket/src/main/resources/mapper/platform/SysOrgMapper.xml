@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.platform.mapper.OrgMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.platform.po.OrgPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="pid" property="pid" javaType="Long"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="org_type_id" property="orgTypeId" javaType="Long"/>
+        <result column="org_type_code" property="orgTypeCode" javaType="String"/>
+        <result column="org_type_name" property="orgTypeName" javaType="String"/>
+        <result column="sort" property="sort" javaType="String"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="String"/>
+    </resultMap>
+
+</mapper>

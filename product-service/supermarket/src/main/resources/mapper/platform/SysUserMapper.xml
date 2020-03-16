@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.platform.mapper.UserMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.platform.po.UserPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="account" property="account" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="password" property="password" javaType="String"/>
+        <result column="picture" property="picture" javaType="String"/>
+        <result column="org_id" property="orgId" javaType="Long"/>
+        <result column="org_name" property="orgName" javaType="String"/>
+        <result column="create_time" property="createTime" javaType="Date"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="String"/>
+    </resultMap>
+
+    <resultMap id="userRoleMap" type="hashmap">
+        <result column="user_id" property="userId" javaType="Long"/>
+        <result column="role_id" property="roleId" javaType="Long"/>
+    </resultMap>
+
+
+    <select id="getRoleById" parameterType="java.lang.Long" resultType="java.lang.String">
+        select t1.code
+        from platform_user_role t left join platform_role t1
+        on t.role_id = t1.id
+        where user_id=#{userId}
+    </select>
+
+    <select id="getPermissionsById" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select m.permission_code
+        from platform_user_role ur left join platform_role_menu mr
+        on ur.role_id = mr.role_id
+        left join platform_menu m on mr.menu_id = m.id
+        where ur.user_id=#{userId}
+    </select>
+
+    <select id="getUserRole" parameterType="java.lang.Long" resultMap="userRoleMap">
+        select
+        user_id,role_id
+        from platform_user_role
+        where user_id=#{userId}
+    </select>
+
+
+    <delete id="deleteUserRole" parameterType="java.lang.Long">
+        delete from platform_user_role
+        where user_id=#{userId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.member.mapper.MemberIntegralMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.member.po.MemberIntegralPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="member_id" property="memberId" javaType="Long"/>
+        <result column="member_nickname" property="memberNickname" javaType="String"/>
+        <result column="integral" property="integral" javaType="String"/>
+    </resultMap>
+
+    <sql id="fields">
+                            i.member_id,
+                    i.member_nickname,
+                    i.integral
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict i
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="memberId != null and memberId != ''">
+                and i.member_id = #{memberId}
+            </if>
+            <if test="memberNickname != null and memberNickname != ''">
+                and i.member_nickname = #{memberNickname}
+            </if>
+            <if test="integral != null and integral != ''">
+                and i.integral = #{integral}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

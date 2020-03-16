@@ -1,0 +1,94 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="content">
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <blockquote class="layui-elem-quote layui-quote-nm">
+                                    <form class="layui-form layui-form-pane queryFrom">
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">名称</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="name" placeholder="请输入名称"
+                                                           autocomplete="off"
+                                                           class="layui-input">
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-inline">
+                                                <div class="layui-input-inline" style="width: 100%">
+                                                    <div class="layui-btn-container">
+                                                        <button class="layui-btn layui-btn-sm layui-btn-normal"
+                                                                lay-submit
+                                                                lay-filter="queryButton">
+                                                            <i class="layui-icon layui-icon-search"></i>查询
+                                                        </button>
+                                                        <button type="reset"
+                                                                class="layui-btn layui-btn-sm layui-btn-rest">
+                                                            <i class="layui-icon layui-icon-refresh-1"></i>重置
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <table id="table" lay-filter="table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="none">
+
+    layui.use(['form', 'util'], function () {
+        var form = layui.form;
+        var util = layui.util;
+
+        //表格
+        renderTable({
+            dom: "table"
+            , url: "/sys/log/errorLog"
+            , cols: [[
+                {checkbox: true}
+                , {field: 'userAccount', title: '用户账号', width: 120}
+                , {field: 'userName', title: '用户名称', width: 120}
+                , {field: 'optTypeName', title: '操作类型', width: 100}
+                , {field: 'description', title: '操作描述', width: 150}
+                , {field: 'url', title: '请求地址', width: 120}
+                , {field: 'method', title: '请求方法名称'}
+                , {field: 'params', title: '请求参数'}
+                , {field: 'result', title: '返回结果'}
+                , {field: 'ip', title: 'ip地址', width: 120}
+                , {
+                    field: 'createDateTime', title: '异常时间', width: 180, templet: function (d) {
+                        return util.toDateString(d.createDateTime);
+                    }
+                }
+            ]]
+        });
+
+        //查询
+        form.on('submit(queryButton)', function (data) {
+            refreshTable({
+                where: data.field
+            });
+            return false;
+        });
+
+    });
+
+</script>
+

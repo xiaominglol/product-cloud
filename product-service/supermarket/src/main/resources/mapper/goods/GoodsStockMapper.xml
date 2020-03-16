@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.goods.mapper.GoodsStockMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.goods.po.GoodsStockPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="specification_name" property="specificationName" javaType="String"/>
+        <result column="goods_id" property="goodsId" javaType="Long"/>
+        <result column="goods_name" property="goodsName" javaType="String"/>
+        <result column="original_price" property="originalPrice" javaType="java.math.BigDecimal"/>
+        <result column="current_price" property="currentPrice" javaType="java.math.BigDecimal"/>
+        <result column="surplus_stock" property="surplusStock" javaType="Long"/>
+        <result column="used_stock" property="usedStock" javaType="Long"/>
+        <result column="lock_stock" property="lockStock" javaType="Long"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="fields">
+                            s.specification_name,
+                    s.goods_id,
+                    s.goods_name,
+                    s.original_price,
+                    s.current_price,
+                    s.surplus_stock,
+                    s.used_stock,
+                    s.lock_stock,
+                    s.state_id,
+                    s.state_code,
+                    s.state_name,
+                    s.modify_user_id,
+                    s.modify_user_name,
+                    s.modify_time
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict s
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="specificationName != null and specificationName != ''">
+                and s.specification_name = #{specificationName}
+            </if>
+            <if test="goodsId != null and goodsId != ''">
+                and s.goods_id = #{goodsId}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and s.goods_name = #{goodsName}
+            </if>
+            <if test="originalPrice != null and originalPrice != ''">
+                and s.original_price = #{originalPrice}
+            </if>
+            <if test="currentPrice != null and currentPrice != ''">
+                and s.current_price = #{currentPrice}
+            </if>
+            <if test="surplusStock != null and surplusStock != ''">
+                and s.surplus_stock = #{surplusStock}
+            </if>
+            <if test="usedStock != null and usedStock != ''">
+                and s.used_stock = #{usedStock}
+            </if>
+            <if test="lockStock != null and lockStock != ''">
+                and s.lock_stock = #{lockStock}
+            </if>
+            <if test="stateId != null and stateId != ''">
+                and s.state_id = #{stateId}
+            </if>
+            <if test="stateCode != null and stateCode != ''">
+                and s.state_code = #{stateCode}
+            </if>
+            <if test="stateName != null and stateName != ''">
+                and s.state_name = #{stateName}
+            </if>
+            <if test="modifyUserId != null and modifyUserId != ''">
+                and s.modify_user_id = #{modifyUserId}
+            </if>
+            <if test="modifyUserName != null and modifyUserName != ''">
+                and s.modify_user_name = #{modifyUserName}
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                and s.modify_time = #{modifyTime}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

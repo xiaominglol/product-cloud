@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.member.mapper.MemberCouponMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.member.po.MemberCouponPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="member_id" property="memberId" javaType="Long"/>
+        <result column="member_nickname" property="memberNickname" javaType="String"/>
+        <result column="coupon_id" property="couponId" javaType="Long"/>
+        <result column="coupon_name" property="couponName" javaType="String"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="fields">
+                            c.member_id,
+                    c.member_nickname,
+                    c.coupon_id,
+                    c.coupon_name,
+                    c.create_time,
+                    c.state_id,
+                    c.state_code,
+                    c.state_name,
+                    c.modify_user_id,
+                    c.modify_user_name,
+                    c.modify_time
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict c
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="memberId != null and memberId != ''">
+                and c.member_id = #{memberId}
+            </if>
+            <if test="memberNickname != null and memberNickname != ''">
+                and c.member_nickname = #{memberNickname}
+            </if>
+            <if test="couponId != null and couponId != ''">
+                and c.coupon_id = #{couponId}
+            </if>
+            <if test="couponName != null and couponName != ''">
+                and c.coupon_name = #{couponName}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and c.create_time = #{createTime}
+            </if>
+            <if test="stateId != null and stateId != ''">
+                and c.state_id = #{stateId}
+            </if>
+            <if test="stateCode != null and stateCode != ''">
+                and c.state_code = #{stateCode}
+            </if>
+            <if test="stateName != null and stateName != ''">
+                and c.state_name = #{stateName}
+            </if>
+            <if test="modifyUserId != null and modifyUserId != ''">
+                and c.modify_user_id = #{modifyUserId}
+            </if>
+            <if test="modifyUserName != null and modifyUserName != ''">
+                and c.modify_user_name = #{modifyUserName}
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                and c.modify_time = #{modifyTime}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

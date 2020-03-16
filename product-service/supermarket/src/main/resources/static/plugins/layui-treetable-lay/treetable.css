@@ -1,0 +1,48 @@
+.treeTable-empty {
+    width: 20px;
+    display: inline-block;
+}
+
+.treeTable-icon {
+    cursor: pointer;
+}
+
+/*.treeTable-icon .layui-icon-triangle-d:before {
+    content: "\e623";
+}
+
+.treeTable-icon.open .layui-icon-triangle-d:before {
+    content: "\e625";
+    background-color: transparent;
+}*/
+
+/** 修改文件夹图标 未展开 */
+.treeTable-icon .layui-icon-layer:before {
+    /*content: "\e638";*/
+    content: "";
+}
+
+/** 修改文件夹图标 展开 */
+.treeTable-icon.open .layui-icon-layer:before {
+    /*content: "\e638";*/
+    content: "";
+}
+
+/* 修改文件图标 */
+.treeTable-icon .layui-icon-file:before {
+    /*content: "\e655";*/
+    content: "";
+    margin-left: 25px;
+    margin-right: -15px;
+}
+
+/** 修改箭头的图标 未展开 */
+.treeTable-icon .layui-icon-triangle-d:before {
+    content: "\e623";
+    margin-right: -15px;
+}
+
+/** 修改箭头的图标 展开 */
+.treeTable-icon.open .layui-icon-triangle-d:before {
+    content: "\e625";
+}

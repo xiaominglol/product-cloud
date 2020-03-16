@@ -1,0 +1,115 @@
+.layui-layout-admin .layui-body {
+    /*去掉底部固定区域44px*/
+    bottom: 0px;
+}
+
+/*菜单icon*/
+.layui-layout-admin .layui-icon {
+    margin-right: 5px;
+}
+
+.layui-btn-container .layui-btn {
+    margin-bottom: 0px;
+}
+
+/*所有弹出层的from表单添加paddin*/
+.layui-layer-wrap .layui-form-pane {
+    padding: 20px;
+}
+
+/*隐藏所有弹出层的button*/
+.layui-layer-wrap .layui-form-item button {
+    display: none;
+}
+
+/*列表查询条件 引用区块底部调整为0px*/
+.layui-elem-quote {
+    padding: 15px 15px 0px 15px;
+}
+
+/*头部logo宽度调整*/
+.layui-layout-admin .layui-logo {
+    width: 140px;
+}
+
+/*一级菜单宽度调整*/
+.layui-layout-left {
+    left: 140px;
+}
+
+/*小图标的（下）三角箭头位置调整*/
+.layui-nav-img + .layui-nav-more {
+    margin-top: -6px;
+}
+
+/*小图标的（上）三角箭头位置调整*/
+.layui-nav-img + .layui-nav-mored {
+    margin-top: -12px;
+}
+
+/*左侧菜单宽度调整*/
+.layui-layout-admin .layui-side {
+    width: 140px;
+}
+
+.layui-side-scroll {
+    width: 140px;
+}
+
+.layui-nav-tree {
+    width: 140px;
+}
+
+/*右边内容宽度调整*/
+.layui-body {
+    left: 140px;
+    padding: 15px 15px 15px;
+    background-color: #F0F0F0;
+}
+
+/*layui树对整齐位置*/
+.layui-tree .layui-tree-leaf {
+    margin-left: 27px;
+}
+
+/*布局优化*/
+.layui-fluid {
+    padding: 0px;
+}
+
+/*弹出框优化
+下拉菜单过长时，出现滚动条，并且内容隐藏在弹出框内，
+修改为不要滚动条，内容在弹出框外面*/
+.layui-layer-page .layui-layer-content {
+    /*overflow: visible !important;*/
+}
+
+/*下拉树*/
+.downpanel .layui-select-title span {
+    line-height: 38px;
+}
+
+/*下拉树*/
+/*继承父类颜色*/
+.downpanel dl dd:hover {
+    background-color: inherit;
+}
+
+/*layui 按钮颜色体系*/
+.layui-btn-rest {
+    background-color: #5FB878;
+}
+
+/*layui颜色体系*/
+.layui-color-green {
+    color: #5FB878;
+}
+
+.layui-color-red {
+    color: #FF5722;
+}
+
+/*内容超长时出现滚动条*/
+.layui-card-body {
+    overflow: auto;
+}

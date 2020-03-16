@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.business.com.gemini.business.supermarket.member.mapper.MemberGradeMapper">
+
+    <resultMap id="resultMap" type="com.gemini.business.supermarket.member.po.MemberGradePo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="code" property="code" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+    </resultMap>
+
+    <sql id="fields">
+                            g.code,
+                    g.name
+    </sql>
+
+    <sql id="table">
+        d_l_risk_dict g
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="code != null and code != ''">
+                and g.code = #{code}
+            </if>
+            <if test="name != null and name != ''">
+                and g.name = #{name}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="order">
+        <if test="(ascs != null ascs != '') or (descs != null descs != '')">
+            order by
+            <if test="ascs != null and ascs != ''">
+                ${ascs} asc
+            </if>
+            <if test="descs != null and descs != ''">
+                ${descs} desc
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

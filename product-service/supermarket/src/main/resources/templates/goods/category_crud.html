@@ -1,0 +1,295 @@
+<div id="addOrUpdate" style="display: none">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上级分类</label>
+                    <div class="layui-input-block">
+                        <select name="pid" lay-filter="categoryId" required lay-verify="required">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">icon</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="icon" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label">排序<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">子分类</li>
+                <li>品牌设置</li>
+                <li>规格设置</li>
+                <li>参数设置</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+                        <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                            新增一行
+                        </span>
+                        <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                            批量删除
+                        </span>
+                    </div>
+                    <div class="layui-form-item">
+                        <table id="detailTable" lay-filter="detailTable"></table>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-row">
+                        <div class="layui-col-md12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">品牌</label>
+                                <div class="layui-input-block">
+                                    <input type="hidden" name="brandName">
+                                    <select name="brandId" lay-filter="brandId" required lay-verify="required">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-md6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">icon</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="icon" autocomplete="off"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div class="layui-form-item">
+
+                                <label class="layui-form-label">排序<span class="require">*</span></label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="sort" required lay-verify="required" value="1"
+                                           autocomplete="off"
+                                           class="layui-input">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+                        <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                            新增一行
+                        </span>
+                        <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                            批量删除
+                        </span>
+                    </div>
+                    <div class="layui-form-item">
+                        <table id="specificationDetailTable" lay-filter="specificationDetailTable"></table>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+                        <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                            新增一行
+                        </span>
+                        <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                            批量删除
+                        </span>
+                    </div>
+                    <div class="layui-form-item">
+                        <table id="paramDetailTable" lay-filter="paramDetailTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--<div id="batchAddOrUpdate" style="display: none">-->
+<!--<form class="layui-form layui-form-pane">-->
+<!--<div class="layui-form-item layui-form-text">-->
+<!--<label class="layui-form-label">文本域</label>-->
+<!--<div class="layui-input-block">-->
+<!--<textarea name="batchData"-->
+<!--placeholder='[{"name":"休闲食品","sort":"1",detailList:[{"name":"坚果炒货","sort":"1"},{"name":"糖果饼干","sort":"2"}]}]'-->
+<!--class="layui-textarea" style="height: 348px;"></textarea>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<div class="layui-input-block">-->
+<!--<button class="layui-btn save" lay-submit lay-filter="batchSaveButton">保存</button>-->
+<!--<button type="reset" class="layui-btn layui-btn-primary reset">重置</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+
+<!--<div id="brand" style="display: none">-->
+<!--<form class="layui-form layui-form-pane">-->
+<!--<input type="hidden" name="id">-->
+<!--<input type="hidden" name="categoryId">-->
+<!--<input type="hidden" name="categoryName">-->
+<!--<div class="layui-row">-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">名称<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="name" required lay-verify="required" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">logo</label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="logo" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">排序<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<table id="brandDetailTable" lay-filter="brandDetailTable"></table>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<div class="layui-input-block">-->
+<!--<button class="layui-btn save" lay-submit lay-filter="saveBrandButton">保存</button>-->
+<!--<button type="reset" class="layui-btn layui-btn-primary reset">重置</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div id="specification" style="display: none">-->
+<!--<form class="layui-form layui-form-pane">-->
+<!--<input type="hidden" name="id">-->
+<!--<input type="hidden" name="categoryId">-->
+<!--<input type="hidden" name="categoryName">-->
+<!--<div class="layui-row">-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">名称<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="name" required lay-verify="required" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">值<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="value" required lay-verify="required" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">排序<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<table id="specificationDetailTable" lay-filter="specificationDetailTable"></table>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<div class="layui-input-block">-->
+<!--<button class="layui-btn save" lay-submit lay-filter="saveSpecificationButton">保存</button>-->
+<!--<button type="reset" class="layui-btn layui-btn-primary reset">重置</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div id="param" style="display: none">-->
+<!--<form class="layui-form layui-form-pane">-->
+<!--<input type="hidden" name="id">-->
+<!--<input type="hidden" name="categoryId">-->
+<!--<input type="hidden" name="categoryName">-->
+<!--<div class="layui-row">-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">名称<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="name" required lay-verify="required" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">值<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="value" required lay-verify="required" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<label class="layui-form-label">排序<span class="require">*</span></label>-->
+<!--<div class="layui-input-block">-->
+<!--<input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"-->
+<!--class="layui-input">-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<table id="paramDetailTable" lay-filter="paramDetailTable"></table>-->
+<!--</div>-->
+<!--<div class="layui-form-item">-->
+<!--<div class="layui-input-block">-->
+<!--<button class="layui-btn save" lay-submit lay-filter="saveParamButton">保存</button>-->
+<!--<button type="reset" class="layui-btn layui-btn-primary reset">重置</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->

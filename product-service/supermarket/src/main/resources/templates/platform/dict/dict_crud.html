@@ -1,0 +1,49 @@
+<div id="addOrUpdate" style="display: none">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">编码<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="code" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称<span class="require">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="description" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+            <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                新增一行
+            </span>
+            <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                批量删除
+            </span>
+        </div>
+        <div class="layui-form-item">
+            <table id="detailTable" lay-filter="detailTable"></table>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
