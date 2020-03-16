@@ -9,5 +9,5 @@ import com.gemini.business.supermarket.platform.po.DictPo;
  *
  * @author 小明不读书
  */
-public interface DictService extends BaseDetailService<DictPo, DictPo, DictMapper, DictMapper> {
+public interface PlatformDictService extends BaseDetailService<DictPo, DictPo, DictMapper, DictMapper> {
 }

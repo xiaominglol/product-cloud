@@ -34,12 +34,16 @@ import java.util.Date;
 @Aspect
 @Component
 public class SysLogAspect {
-    @Autowired
+    final
     OptLogService optLogPoService;
     @Autowired
     ErrorLogService errorLogService;
     OptLogPo optLogPoPo = new OptLogPo();
     ErrorLogPo errorLogPo = new ErrorLogPo();
+
+    public SysLogAspect(OptLogService optLogPoService) {
+        this.optLogPoService = optLogPoService;
+    }
 
     @Pointcut("@annotation(com.gemini.business.supermarket.common.annotation.SysLog)")
     public void sysLog() {

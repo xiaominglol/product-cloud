@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gemini.business.com.gemini.business.supermarket.member.mapper.MemberCouponMapper">
+<mapper namespace="com.gemini.business.supermarket.member.mapper.MemberCouponMapper">
 
     <resultMap id="resultMap" type="com.gemini.business.supermarket.member.po.MemberCouponPo">
         <id column="id" property="id" javaType="Long"/>

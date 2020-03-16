@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.gemini.boot.framework.mybatis.service.impl.BaseDetailServiceImpl;
 import com.gemini.business.supermarket.platform.mapper.DictMapper;
 import com.gemini.business.supermarket.platform.po.DictPo;
-import com.gemini.business.supermarket.platform.service.DictService;
+import com.gemini.business.supermarket.platform.service.PlatformDictService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
  * @author 小明不读书
  */
 @Service
-public class DictServiceImpl extends BaseDetailServiceImpl<DictPo, DictPo, DictMapper, DictMapper> implements DictService {
+public class PlatformDictServiceImpl extends BaseDetailServiceImpl<DictPo, DictPo, DictMapper, DictMapper> implements PlatformDictService {
 
     @Override
     public QueryWrapper<DictPo> wrapper(DictPo po) {

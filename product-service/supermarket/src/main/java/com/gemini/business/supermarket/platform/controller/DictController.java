@@ -8,8 +8,8 @@ import com.gemini.boot.framework.web.entity.CommonFailInfo;
 import com.gemini.boot.framework.web.entity.Message;
 import com.gemini.business.supermarket.common.annotation.SysLog;
 import com.gemini.business.supermarket.platform.po.DictPo;
-import com.gemini.business.supermarket.platform.service.DictService;
 import com.gemini.business.supermarket.platform.service.ErrorLogService;
+import com.gemini.business.supermarket.platform.service.PlatformDictService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class DictController {
     @Autowired
     ErrorLogService errorLogService;
     @Autowired
-    DictService dictService;
+    PlatformDictService platformDictService;
 
     @GetMapping("/gotoList")
     public String gotoList() {
@@ -52,10 +52,10 @@ public class DictController {
                 qw.eq("state_code", "Enable");
             }
             if (layUiPage.getPageNum() != 0 && layUiPage.getPageSize() != 0) {
-                IPage<DictPo> list = dictService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
+                IPage<DictPo> list = platformDictService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
                 return Message.success(list);
             } else {
-                List<DictPo> list = dictService.list(qw);
+                List<DictPo> list = platformDictService.list(qw);
                 return Message.success(list);
             }
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class DictController {
     public Message detail(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                DictPo po = dictService.getById(id);
+                DictPo po = platformDictService.getById(id);
                 return Message.success(po);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -84,7 +84,7 @@ public class DictController {
     public Message add(@RequestBody DictPo po) {
         try {
             if (StringUtils.isEmpty(po.getId())) {
-                dictService.insertSync(po, po.getDetailList(), true);
+                platformDictService.insertSync(po, po.getDetailList(), true);
                 return Message.success(po);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -100,7 +100,7 @@ public class DictController {
     public Message update(@RequestBody DictPo po) {
         try {
             if (!StringUtils.isEmpty(po.getId())) {
-                dictService.updateSync(po, po.getDetailList(), true);
+                platformDictService.updateSync(po, po.getDetailList(), true);
                 return Message.success(po);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -116,7 +116,7 @@ public class DictController {
     public Message delete(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                dictService.deleteByIdSync(id);
+                platformDictService.deleteByIdSync(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
