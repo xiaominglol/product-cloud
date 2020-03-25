@@ -1,6 +1,6 @@
 spring:
   application:
-    name: goods-service
+    name: admin-service
   cloud:
     nacos:
       config:

@@ -1,5 +1,6 @@
 package com.gemini.business.goods.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class Test {
     }
 
     @GetMapping("/1")
+    @SentinelResource("test1")
     public String test1() {
         return picture;
     }
