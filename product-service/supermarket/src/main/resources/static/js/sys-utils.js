@@ -108,7 +108,7 @@ function getTreeSelect(param) {
  */
 function getMultiSelect(dom) {
     var data = getSysData({
-        url: "/sys/role"
+        url: "/admin/role"
     });
     if (data) {
         var multiSelect = [];
@@ -134,7 +134,7 @@ function getDictByCode(param) {
     layui.use(['form'], function () {
         var form = layui.form;
         $.ajax({
-            url: '/sys/dict'
+            url: '/admin/dict'
             , type: 'GET'
             , async: param.async
             , data: {

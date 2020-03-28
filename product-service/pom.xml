@@ -12,28 +12,19 @@
     <artifactId>product-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>goods-service</module>
-        <module>member-service</module>
-        <module>order-service</module>
-        <module>mall-service</module>
+        <module>goods</module>
+        <module>member</module>
+        <module>order</module>
+        <module>mall</module>
         <module>supermarket</module>
-        <module>admin-service</module>
+        <module>admin</module>
+        <module>education</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>com.gemini.cloud.framework</groupId>
             <artifactId>cloud-service</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-webflux</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

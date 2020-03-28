@@ -72,7 +72,7 @@
         var form = layui.form;
         var table = layui.table;
         var authTree = layui.authTree;
-        var baseUrl = "/sys/role";
+        var baseUrl = "/admin/role";
         var moduleName = "角色";
         var requestType;
         var baseCols = [[
@@ -104,7 +104,7 @@
         });
 
         var menuData = getSysData({
-            url: "/sys/menu"
+            url: "/admin/menu"
         });
 
         for (var i in menuData) {

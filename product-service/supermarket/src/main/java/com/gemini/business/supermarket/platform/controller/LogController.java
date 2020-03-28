@@ -28,7 +28,7 @@ import java.util.List;
  * @date 2018-06-09
  */
 @Controller
-@RequestMapping("/sys/log")
+@RequestMapping("/admin/log")
 public class LogController {
 
     @Autowired

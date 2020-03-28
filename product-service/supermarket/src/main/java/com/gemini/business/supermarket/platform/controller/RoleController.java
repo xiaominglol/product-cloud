@@ -25,7 +25,7 @@ import java.util.Map;
  * @date 2017-11-03
  */
 @Controller
-@RequestMapping("/sys/role")
+@RequestMapping("/admin/role")
 public class RoleController {
 
     @Autowired

@@ -27,7 +27,7 @@ import java.util.Map;
  * @date 2018-06-09
  */
 @Controller
-@RequestMapping("/sys/org")
+@RequestMapping("/admin/org")
 public class OrgController {
 
     @Autowired

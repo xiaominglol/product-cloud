@@ -39,7 +39,7 @@ import java.util.*;
  * @date 2017-11-03
  */
 @Controller
-@RequestMapping("/sys/user")
+@RequestMapping("/admin/user")
 public class UserController {
 
     @Autowired

@@ -90,7 +90,7 @@
         var util = layui.util;
         var formSelects = layui.formSelects;
         var upload = layui.upload;
-        var baseUrl = "/sys/user";
+        var baseUrl = "/admin/user";
         var moduleName = "用户";
         var requestType;
         var picture = "/img/icon/64/default_picture.png";
@@ -122,7 +122,7 @@
 
         //左侧树
         renderTree({
-            url: "/sys/org"
+            url: "/admin/org"
             , click: function (node) {
                 refreshTable({
                     where: {
@@ -153,7 +153,7 @@
         // 获取组织架构下拉树
         function getOrgTreeSelect() {
             renderTree({
-                url: "/sys/org"
+                url: "/admin/org"
                 , dom: "orgId"
                 , click: function (node) {
                     var $select = $($(this)[0].elem).parents(".layui-form-select");

@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2017-12-12
  */
 @Controller
-@RequestMapping("/sys/menu")
+@RequestMapping("/admin/menu")
 public class MenuController {
 
     @Autowired

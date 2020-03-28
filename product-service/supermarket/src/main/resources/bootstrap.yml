@@ -1,6 +1,6 @@
 spring:
   application:
-    name: supermarket-service
+    name: supermarket
   cloud:
     nacos:
       config:
