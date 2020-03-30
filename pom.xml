@@ -18,6 +18,7 @@
         <module>product-service</module>
         <module>product-api</module>
         <module>product-gateway</module>
+        <module>product-oss</module>
     </modules>
 
     <properties>

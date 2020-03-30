@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    alicloud:
+      oss:
+        endpoint: oss-cn-shenzhen.aliyuncs.com
+      access-key: LTAI4FgZUDPNsQ6KKYD1Fnyh
+      secret-key: 5OzzRMebgK4ipLcW5WGZMT6Sl5NUpk

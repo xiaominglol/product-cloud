@@ -14,7 +14,7 @@ package com.gemini.business.supermarket.common.utils;///**
 // * the License.
 // */
 //
-//package com.gemini.cloud.framework.web.utils;
+//package com.gemini.cloud.framework.web.com.gemini.business.oss.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
